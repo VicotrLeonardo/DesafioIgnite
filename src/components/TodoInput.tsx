@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Alert,
+} from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
 interface TodoInputProps {
@@ -29,7 +35,7 @@ export function TodoInput({ addTask }: TodoInputProps) {
         testID="add-new-task-button"
         activeOpacity={0.7}
         style={styles.addButton}
-        onPress={() => addTask(taskTitle)}
+        onPress={() => handleAddNewTask(taskTitle)}
         //TODO - onPress prop
       >
         <Icon name="chevron-right" size={24} color="#B2B2B2" />

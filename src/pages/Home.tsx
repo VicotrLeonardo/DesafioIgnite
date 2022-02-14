@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 
 import { Header } from "../components/Header";
 import { Task, TasksList } from "../components/TasksList";
@@ -9,16 +9,28 @@ export function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   function handleAddTask(newTaskTitle: string) {
-    const data = {
-      id: Math.random(),
-      title: newTaskTitle,
-      done: false,
-    };
-    setTasks((oldState) => [...oldState, data]);
+    var teste = tasks.find((element) => element.title === newTaskTitle);
+    console.log(teste);
+
+    if (teste === undefined) {
+      const data = {
+        id: tasks.length ? tasks[tasks.length - 1].id + 1 : 1,
+        title: newTaskTitle,
+        done: false,
+      };
+      setTasks((oldState) => [...oldState, data]);
+    } else {
+      Alert.alert("Titulo Repetido");
+    }
   }
 
   function handleToggleTaskDone(id: number) {
     //TODO - toggle task done if exists
+    setTasks((oldState) => {
+      let task = oldState.find((task) => task.id === id);
+      task.done = !task.done;
+      return [...oldState];
+    });
   }
 
   function handleRemoveTask(id: number) {

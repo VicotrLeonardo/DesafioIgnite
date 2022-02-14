@@ -7,6 +7,7 @@ import {
   Text,
   StyleSheet,
   FlatListProps,
+  Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
@@ -45,17 +46,20 @@ export function TasksList({
                 testID={`button-${index}`}
                 activeOpacity={0.7}
                 style={styles.taskButton}
+                onPress={() => toggleTaskDone(item.id)}
                 //TODO - use onPress (toggle task) prop
               >
                 <View
                   testID={`marker-${index}`}
+                  style={item.done ? styles.taskMarkerDone : styles.taskMarker}
                   //TODO - use style prop
                 >
-                  {item.done && <Icon name="check" size={12} color="#FFF" />}
+                  {item.done && <Icon name="check" size={18} color="#c20000" />}
                 </View>
 
                 <Text
-                //TODO - use style prop
+                  style={item.done ? styles.taskTextDone : styles.taskText}
+                  //TODO - use style prop
                 >
                   {item.title}
                 </Text>
@@ -65,7 +69,27 @@ export function TasksList({
             <TouchableOpacity
               testID={`trash-${index}`}
               style={{ paddingHorizontal: 24 }}
-              onPress={() => removeTask(item.id)}
+              onPress={() =>
+                Alert.alert(
+                  "Aviso",
+                  "Tem Certeza que quer apagar esta Tarefa?",
+                  [
+                    // The "Yes" button
+                    {
+                      text: "Sim",
+                      onPress: () => {
+                        removeTask(item.id);
+                      },
+                    },
+                    // The "No" button
+                    // Does nothing but dismiss the dialog when tapped
+                    {
+                      text: "Não",
+                    },
+                  ]
+                )
+              }
+
               //TODO - use onPress (remove task) prop
             >
               <Image source={trashIcon} />
